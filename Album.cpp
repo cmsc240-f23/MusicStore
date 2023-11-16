@@ -28,6 +28,12 @@ json::wvalue Album::convertToJson()
         writeJson["artists"][index]["id"] = artist.getId();
     }
 
+    // // If you want the full json for each artist to be included:
+    // for (Artist artist : artists) 
+    // {
+    //     writeJson["artists"] = artist.convertToJson();
+    // }
+
     // Convert genre to json (Save only the id)
     writeJson["genre"]["id"] = genre.getId();
  
