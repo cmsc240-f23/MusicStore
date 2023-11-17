@@ -1,3 +1,5 @@
+all: musicStoreAPI static-analysis run-unit-tests 
+
 musicStoreAPI: musicStoreAPI.o Genre.o Artist.o Album.o Record.o CompactDisc.o GenericAPI.o 
 	g++ -lpthread musicStoreAPI.o Genre.o Artist.o Album.o Record.o CompactDisc.o GenericAPI.o -o musicStoreAPI
 
@@ -22,5 +24,18 @@ Genre.o: Genre.cpp Genre.h
 GenericAPI.o: GenericAPI.cpp GenericAPI.h Genre.h Artist.h Record.h
 	g++ -Wall -c GenericAPI.cpp 
 
+GenericAPITest: GenericAPITest.cpp GenericAPI.o Artist.o Album.o Record.o CompactDisc.o Genre.o
+	g++ -lpthread GenericAPITest.cpp GenericAPI.o Artist.o Album.o Record.o CompactDisc.o Genre.o -o GenericAPITest
+
+persistenceTest: persistenceTest.cpp persistence.h
+	g++ -lpthread persistenceTest.cpp Genre.o -o persistenceTest
+
+run-unit-tests: GenericAPITest persistenceTest
+	./GenericAPITest   ;\
+	./persistenceTest
+
+static-analysis:
+	cppcheck *.cpp
+
 clean:
-	rm -f *.o musicStoreAPI
+	rm -f *.o musicStoreAPI GenericAPITest persistenceTest
