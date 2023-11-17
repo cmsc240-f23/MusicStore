@@ -27,15 +27,19 @@ GenericAPI.o: GenericAPI.cpp GenericAPI.h Genre.h Artist.h Record.h
 GenericAPITest: GenericAPITest.cpp GenericAPI.o Artist.o Album.o Record.o CompactDisc.o Genre.o
 	g++ -lpthread GenericAPITest.cpp GenericAPI.o Artist.o Album.o Record.o CompactDisc.o Genre.o -o GenericAPITest
 
-persistenceTest: persistenceTest.cpp persistence.h
+persistenceTest: persistenceTest.cpp persistence.h Genre.o
 	g++ -lpthread persistenceTest.cpp Genre.o -o persistenceTest
 
+GenreTest: GenreTest.cpp Genre.cpp Genre.h Genre.o
+	g++ -lpthread GenreTest.cpp Genre.o -o GenreTest
+
 run-unit-tests: GenericAPITest persistenceTest
-	./GenericAPITest   ;\
-	./persistenceTest
+	./GenericAPITest    ;\
+	./persistenceTest	;\
+	./GenreTest
 
 static-analysis:
 	cppcheck *.cpp
 
 clean:
-	rm -f *.o musicStoreAPI GenericAPITest persistenceTest
+	rm -f *.o musicStoreAPI GenericAPITest persistenceTest GenreTest
